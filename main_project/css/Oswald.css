@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Oswald Regular'), local('Oswald-Regular'), url(http://themes.googleusercontent.com/static/fonts/oswald/v7/-g5pDUSRgvxvOl5u-a_WHw.woff) format('woff');
+}
+
+
+#container
+{
+	height:700px;
+	width:100%;
+	border:1px solid;
+}
+#mine
+{
+	height:140px;
+	width: 100%;
+	border:1px solid;
+	background-image:url("../images/bck.jpg");
+}
+
+
+#home1
+{
+	height:70px;
+	width:100%;
+	border:1px solid;
+	padding:15px 0px 0px 10px;
+	
+}
+
+
+
+
+
+#pic
+{
+	height:488px;
+	width:100%;
+	border:1px solid;
+}
+
