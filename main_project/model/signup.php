@@ -1,24 +1,18 @@
 <?php
-
 /**
-* Signup model 
+* @classname            signupModel
 *
-* 
-*
-* LICENSE: Some license information
-*
-* @category   Zend
-* @package    Zend_Magic
-* @subpackage Wand
-* @copyright  amitesh
-* @license    http://framework.zend.com/license   BSD License
-* @version    $Id:$
-* @link       http://framework.zend.com/package/PackageName
-* @since      25 march 2013
+* This class contain all methods that models the signup details of a particular user....
+
+* @package              Zend_Magic
+
+* @author               Amitesh Bharti
+* @date                 26-03-2013
+* @version              version - 2
+* @modified-by          Amitesh Bharti
+* @modification-date    26-03-2013
+* ...
 */
-
-
-//model
 require_once(PDO_PATH.'/cxpdo.php');
 require_once(PDO_PATH.'/mysql.php');
 
@@ -29,81 +23,102 @@ class signupModel
 {
 
 
-	private	$_username  =   "";
+    private	$_username  =   "";
 	
-	private	$_password  =   "";
-	private	$_passlen   =  "";
+    private	$_password  =   "";
+    private	$_passlen   =  "";
 	
-	//public $errors      =   null;
-	public $errors      =   array();
-	private $_query     =   "";
-	public	$conn_obj;
+//  public $errors      =   null;
+    public $errors      =   array();
+    private $_query     =   "";
+    public	$conn_obj;
 	
 	
-	function __construct()
-	{
-		$config = array();
-		$config['user'] = 'root';
-		$config['pass'] = 'root';
-		$config['name'] = 'online_test';
-		$config['host'] = 'localhost';
-		$config['type'] = 'mysql';
-		$config['port'] = null;
-		$config['persistent'] = true;
-		$this->db = db::instance($config);
+    function __construct()
+    {
+	$config = array();
+	$config['user'] = 'root';
+	$config['pass'] = 'root';
+	$config['name'] = 'online_test';
+	$config['host'] = 'localhost';
+	$config['type'] = 'mysql';
+	$config['port'] = null;
+	$config['persistent'] = true;
+	$this->db = db::instance($config);
 	
-	}
+    }
 	
 
-	function saveUser($arrValue)
-	{
-		try{
-		//echo '<pre>';
-		//print_r($arrValue);die;
-	    //foreach($arrValue as $key=>$row) {
-	        $result = $this->db->insert('user_details', $arrValue);
-	       // print 'Created row '. $this->_db->lastInsertId(). ' in the table "posts"<br />';
-		//}
-		if($result)
-			return true;
-		else 
-			false;
+    function saveUser($arrValue)
+    {
+	try{
+//          echo '<pre>';
+//          print_r($arrValue);die;
+//          foreach($arrValue as $key=>$row) {
+        $userName=$arrValue['user_name']; 
+        
+        $data['columns']	=	array('user_name');
+		$data['tables']		=	'user_details';
+		$data['conditions']	=	array('user_name'=>$userName);
+		$result		=	$this->db->select($data);
 		
-		} catch (PDOException $e) {
+		
+		$row		=	$result->fetch(PDO::FETCH_ASSOC);
+		if(!empty($row['user_name']))
+		{
+			return false;
 			
-			print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-			//echo 'no duplicate entry';
-			
+			}
+		else{    
+			//insert user details 	
+			$result = $this->db->insert('user_details', $arrValue);
+			if($result){
+				return true;
+				//	echo 'submit';
+			 }
+			else 
+				return  false;
 		}
+	        
+//          print 'Created row '. $this->_db->lastInsertId(). ' in the table "posts"<br />';
+//         }
+    
 		
- 	}
+    } catch (PDOException $e) {
+			
+	print "Error!: " . $e->getMessage() . "<br/>";
+        die();
+//    echo 'no duplicate entry';
+			
+    }
+		
+    }
  	
  	
- 	 public function captchaProcessing($valArr)
-   {
+    public function captchaProcessing($valArr)
+    {
 	 
      
-  		  $val = $valArr['captcha'];
-		  $rand = $valArr['rand'];
-		  // echo "value=$val<br/>rand=$rand";
+         $val = $valArr['captcha'];
+	 $rand = $valArr['rand'];
+//       echo "value=$val<br/>rand=$rand";
 		   
-		  		  // echo "value=$val<br/>rand=$rand";
+//       echo "value=$val<br/>rand=$rand";
 		   
-		  if($val==$rand)
-		  {
-			 echo 1;
+	 if($val==$rand)
+	 {
+	     echo 1;
 			
-			 //header('Location: http://www.example.com/');
-		  }else{
-			 echo "Sorry,may you have entered wrong value.. Try again";	
-		  }
+//       header('Location: http://www.example.com/');
+	 }else{
+	       echo "Sorry,may you have entered wrong value.. Try again";	
+	  }
 		  
 		  
 	 
 	
 
-        //echo "hiiiiii";
+//       echo "hiiiiii";
 
 
     }

@@ -1,5 +1,6 @@
-function validate1()
+function update_details_js()
 {
+
 //CHECK NAMES BLANK
 	if(f1.txtfname.value==""){
 		alert("FIRST NAME FIELD IS EMPTY !");
@@ -50,27 +51,26 @@ function validate1()
                 
             }
 //CHECK SPACE IN FIELDS		
-	if(f1.txtfname.value.trim() =="" || f1.txtfathername.value.trim() =="" || f1.txtlname.value.trim() ==" " ||f1.txtemailid.value.trim() ==""||f1.txtcountry.value.trim =="" ||f1.txtcontactnumber.value.trim() =="" ||f1.txtstate.value.trim() =="" ||f1.txtpin.value =="")
+	if(f1.txtfname.value.trim() =="" || f1.txtfathername.value.trim() =="" || f1.txtlname.value.trim() ==" " 
+		||f1.txtemailid.value.trim() =="" ||f1.txtcontactnumber.value.trim() =="" ||f1.txtstate.value.trim() =="" ||f1.txtpin.value =="")
 		{
 			alert("SORRY ! YOU CAN'T USE SPACE.");
 			return false;
 		}		
 		
 //MATCH PASSWORD AND RETYPE PASSWORD		
-	if(f1.txtpassword.value != f1.txtretypepassword.value)
-		{
-			alert(" PASSWORD & RETYPE PASSWORD DOESN'T  MATCH !");
-			return false;
-		}
-	
-
+//	if(f1.txtpassword.value != f1.txtretypepassword.value)
+//		{
+//			alert(" PASSWORD & RETYPE PASSWORD DOESN'T  MATCH !");
+//			return false;
+//		}
 	
 //CHECK DATE OF BIRTH	
-	if(f1.txtdd.value == "DD" ||f1.txtmm.value == "MM" || f1.txtyyyy.value == "YYYY")
-		{
-			alert(" PLEASE SELECT DATE OF BIRTH !");
-			return false;
-		}
+//	if(f1.txtdd.value == "" || f1.txtmm.value == "" || f1.txtyyyy.value == "")
+//		{
+//			alert(" PLEASE SELECT DATE OF BIRTH !");
+//			return false;
+//		}
 
 //CHECK FEB MONTH		
 	if((f1.txtdd.value ==29 || f1.txtdd.value == 30 || f1.txtdd.value == 31) && f1.txtmm.value == 2 )
@@ -94,26 +94,24 @@ function validate1()
 		}
 
 //CHECK LENGTH OF USER NAME
-	x=new String;
-	x=window.document.f1.txtuname.value;
-	l=x.length;
-	if((l<5) || (l>15))
-	{
-		alert("USER NAME MUST BE BETWEEN 5 TO 15 CHARACTER");
-		return false;
-	}
+//	x=new String;
+//	x=window.document.f1.txtuname.value;
+//	l=x.length;
+//	if((l<5) || (l>15))
+//	{
+//		alert("USER NAME MUST BE BETWEEN 5 TO 15 CHARACTER");
+//		return false;
+//	}
 	
 //CHECK LENGTH OF PASSWORD
-	x=new String;
-	x=window.document.f1.txtpassword.value;
-	l=x.length;
-	if((l<3) || (l>12))
-	{
-		alert("PASSWORD MUST BE BETWEEN 3 TO 12 CHARACTER");
-		return false;
-	}
-	
-
+//	x=new String;
+//	x=window.document.f1.txtpassword.value;
+//	l=x.length;
+//	if((l<3) || (l>12))
+//	{
+//		alert("PASSWORD MUST BE BETWEEN 3 TO 12 CHARACTER");
+//		return false;
+//	}
 	
 //CHECK VALID EMAIL ID
 	x=new String;
@@ -244,19 +242,74 @@ function validate1()
 	
 	for(i=0;i<l;i++)
 	{
-		if(isNaN(x.charAt(i))==false) 
+		if(isNaN(x.charAt(i))==false)
 		{
 			alert("you have entered Numeric value in Last name field");
 			return false;
 		
 		}
 	}
-
-
+	funcSearch();
 
 }
 
 
 
+
+
+
+
+function validatePassword_js()
+{
+    //alert(fdsfs');
+	if(f1.txtoldpass.value ==""  )
+	{
+			alert("OLD PASSWORD FIELD IS EMPTY !");
+			return false;
+	        }
+        else if(f1.txtnewpass.value =="" )
+	{
+			alert("NEW PASSWORD FIELD IS EMPTY !");
+			return false;
+		}
+	 else if(f1.txtretypepass.value ==""  )
+	{
+			alert("RETYPE PASSWORD FIELD IS EMPTY !");
+			return false;
+		}
+         
+
+	if(f1.txtnewpass.value.trim() =="" ||f1.txtretypepass.value.trim() =="")
+	{
+			alert("SORRY ! YOU CAN'T USE SPACE.");
+			return false;
+		}
+   
+   
+	//CHECK LENGTH OF PASSWORD
+	x=new String;
+	x=window.document.f1.txtnewpass.value;
+	l=x.length;
+	if((l<5) || (l>12))
+	{
+		alert("PASSWORD MUST BE BETWEEN 5 TO 12 CHARACTER");
+		return false;
+	}		
+		
+	
+
+
+//MATCH PASSWORD AND RETYPE PASSWORD		
+	if(f1.txtnewpass.value != f1.txtretypepass.value)
+		{
+			alert(" PASSWORD & RETYPE PASSWORD DOESN'T  MATCH !");
+			return false;
+		}
+		
+
+
+        updatePassword_ajax();
+        
+}
 
 

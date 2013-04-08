@@ -24,12 +24,14 @@
                				$("#admin_content").load('resume_test.php');
        	
 	}
+
 	function check_certifications()
 	{
 		
-               				$("#admin_content").load('check_certifications.php');
+               				$("#admin_content").load('index.php?controller=usertest&function=checkCertification');
      
 	}
+
 	function unsubscribe()
 	{
 		$("#admin_content").load('index.php?controller=managetest&function=unsubscribe');

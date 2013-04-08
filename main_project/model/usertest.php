@@ -63,17 +63,15 @@ class usertestModel
 			{
 				$temp_table_name	=	$aray['temp_table_name'];
 				$test_type			=	$aray['test_type'];
-				//CREATING TABLE STRUCTURE FOR TEMP TABLE
+				
+
 		$this->dbh->query("create table if not exists $temp_table_name like temp_test_structure");
 	
-		//INSERTING RANDOM 5 QUESTIONS to temporary test
-// 		$min=$this->dbh->query("SELECT min(qno) FROM $test_type ");
-// 		$max=$this->dbh->query("SELECT max(qno) FROM $test_type ");
 
 		$max = $this->dbh->prepare("SELECT MAX(qno) as maxGroup FROM $test_type");
 		$max->execute();
 		$test = $max->fetch(PDO::FETCH_ASSOC);
-//		print_r ($test);
+
 	    $a=$test['maxGroup'];
 		
 		$min = $this->dbh->prepare("SELECT MIN(qno) as minGroup FROM $test_type");
@@ -83,7 +81,7 @@ class usertestModel
 		
  		$arr=range($a,$b);
  		shuffle($arr);
- 		//print_r ($arr);
+
 		$i=1;
 		foreach ($arr as $key=>$value){
 				
@@ -128,14 +126,186 @@ class usertestModel
 				return "Error..!!";
 			}
 		  }
+		  
+		  public function testQuestions($qid)
+		  {
+		  	$q_id			=	$qid;
+		  		
+			$data['columns']	=	array('qorgid','qtempsrno','question','A','B','C','D','ans','tempans');
+			$data['tables']		=	$_SESSION['testname'];
+			$data['conditions']	=	array('qtempsrno'=>$q_id);
+			
+			$results		=	$this->_db->select($data);
+			return $results;								  
+		  		  
+		  }
+		  
+		  public function previousQues($aray)
+		  {
+
+		  	$q_id			=	$aray['qid'];
+		  	$temp_ans		=	$aray['R1'];
+		  	$uid			=	$q_id+1;
+		  	$data['columns']	=	array('tempans'=>$temp_ans);
+		  	$data['tables']		=	$_SESSION['testname'];
+		  	$data['conditions']	=	array('qtempsrno'=>$uid);
+		  	$result		=	$this->_db->update($data['tables'],$data['columns'],$data['conditions']);
+		  	
+		  	if($result)
+		  	{
+		  		$data['columns']	=	array('qorgid','qtempsrno','question','A','B','C','D','ans','tempans');
+		  		$data['tables']		=	$_SESSION['testname'];
+		  		$data['conditions']	=	array('qtempsrno'=>$q_id);
+		  		 
+		  		$results		=	$this->_db->select($data);
+		  		return $results;
+		  	}
+		  	
+		  	
+		  }
+		  
+		  public function nextQues($aray)
+		  {
+		  	$q_id			=	$aray['qid'];
+		  	$temp_ans		=	$aray['R1'];
+		  	$uid			=	$q_id-1;
+		  	$data['columns']	=	array('tempans'=>$temp_ans);
+		  	$data['tables']		=	$_SESSION['testname'];
+		  	$data['conditions']	=	array('qtempsrno'=>$uid);
+		  	$result		=	$this->_db->update($data['tables'],$data['columns'],$data['conditions']);
+		  	 
+		  	if($result)
+		  	{
+		  		$data['columns']	=	array('qorgid','qtempsrno','question','A','B','C','D','ans','tempans');
+		  		$data['tables']		=	$_SESSION['testname'];
+		  		$data['conditions']	=	array('qtempsrno'=>$q_id);
+		  			
+		  		$results		=	$this->_db->select($data);
+		  		return $results;
+		  	}
+		  }
+        public function updateLast($aray)
+        {
+        	
+        	$q_id			=	$aray['qid'];
+		  	$temp_ans		=	$aray['R1'];
+		  	$uid			=	$q_id-1;
+			$data['columns']	=	array('tempans'=>$temp_ans);
+        	$data['tables']		=	$_SESSION['testname'];
+        	$data['conditions']	=	array('qtempsrno'=>$uid);
+        	$result		=	$this->_db->update($data['tables'],$data['columns'],$data['conditions']);
+        	 if($result)
+        	 {
+        	 	return "done";
+        	 }
+        }
+        
+        public function seeLast($check)
+        {
+        	$data['columns']	=	array('qorgid','qtempsrno','question','A','B','C','D','ans','tempans');
+        	$data['tables']		=	$_SESSION['testname'];
+        	$data['conditions']	=	array('qtempsrno'=>$check);
+        	
+        	$results		=	$this->_db->select($data);
+        	return $results;
+        	 
+        } 
+        
+        public function getCalc($aray)
+        {
+        	$qid			=	$aray['qid'];
+        	$temp_ans		=	$aray['R1'];
+        	
+        	$data['columns']	=	array('tempans'=>$temp_ans);
+        	
+		$data['tables']		=	$_SESSION['testname'];
+        	$data['conditions']	=	array('qtempsrno'=>$qid);
+        	$result		=	$this->_db->update($data['tables'],$data['columns'],$data['conditions']);
+        	 
+		if($result)
+		{
+			return   true;
+		}else
+		{
+			return false;
+		}
+        	
+	      }
+  
+	public function calResult()
+	{
+			$data['columns']	=	array('qorgid','qtempsrno','question','A','B','C','D','ans','tempans');
+        		$data['tables']		=	$_SESSION['testname'];
+        		$results		=	$this->_db->select($data);
+        		$true_ans	=	0;
+        		while($row	=	$results->fetch(PDO::FETCH_ASSOC))
+        	{
+			
+			if($row['tempans']==$row['ans'])
+			{
+        			$true_ans++;
+			}
+        	
+        	}
+        		
+
+		
+		return $true_ans;
+	}
         
         
-        
-        
+        public function updateCertificate($score)
+        {
+        	$c_result	=	"";
+        	$marks		=	$score;
+        	$status		=	1;
+        	$qid		=	0;
+        	if($marks>=10)
+        	{
+        		$c_result	=	"PASS";
+        	}else {
+        		$c_result	=	"FAIL";
+        	}
+        	$data['columns']	=	array('status'=>$status,'qid'=>$qid,'certification_result'=>$c_result,'marks_obt'=>$marks);
+        	$data['tables']		=	'certification_details';
+        	$data['conditions']	=	array('certification_id'=>$_SESSION['testname']);
+        	$result		=	$this->_db->update($data['tables'],$data['columns'],$data['conditions']);
+        		return $marks;
+        	
+        	
+        }
+	public function showResult($id)
+	{
+		$data['columns']	=	array('certification_id','marks_obt','certification_name','certification_result');
+        	$data['tables']		=	'certification_details';
+        	$data['conditions']	=	array('certification_id'=>$id);
+		$result		=	$this->_db->select($data);
+		if($result)
+		{
+			
+		$row	=	$result->fetch(PDO::FETCH_ASSOC);
+		$aray	=	array();
+		$aray['id']	=	$row['certification_id'];
+		$aray['marks']	=	$row['marks_obt'];
+		$aray['name']	=	$row['certification_name'];
+		$aray['result']	=	$row['certification_result'];
+		return $aray;
+		}
+	}
+	
+	public function insertResultDetails()
+	{
+		$query		=	"insert into result_all(id,qtempsrno,question,A,B,C,D,ans,tempans) select certification_id,qtempsrno,question,A,B,C,D,ans,tempans from ".$_SESSION['testname']." as a join certification_details as b on b.certification_id='".$_SESSION['testname']."';" ;
+		$result		=	$this->dbh->query($query);
+		$results	=	$this->dbh->query("drop table ".$_SESSION['testname']);
+		if($results)
+		{
+			return true;
+		}else{
+			return false;
+		}
+	}
+  
 }
-
-
-
-
 
 ?>

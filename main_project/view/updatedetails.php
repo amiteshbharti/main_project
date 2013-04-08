@@ -80,13 +80,13 @@ if(!isset($_SESSION['username']) || (trim($_SESSION['username']) == ''))
 		
 		    <tr>
 		      <td width="100%" colspan="2" bgcolor="#C0C0C0" height="19">
-		      <p align="center"><input type="button" value="Update" name="btnupdate" onclick="validate1()"/></td>
+		      <p align="center"><input type="button" value="Update" name="btnupdate" onclick="update_details_js()"/></td>
 		    </tr>
 		    </table>
 		  </center>
 		</div>	
 		</form>
-z		<script type="text/javascript">
+		<script type="text/javascript">
 			function funcSearch()
 			{
 				

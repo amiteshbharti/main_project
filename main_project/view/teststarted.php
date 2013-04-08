@@ -32,7 +32,7 @@ if(!isset($_SESSION['username']) || (trim($_SESSION['username']) == ''))
 				for ($i=1;$i<=20;$i=$i+1)
 				{
 					
-				?><b><a href="<?php echo SITE_PATH?>?index.php?controller=usertest&function=quessId&qid=<?php echo $i;?>&val=<?php echo $_SESSION['testname'];?>>"<?php echo $i;?></a> </b>
+				?><b><a href="index.php?controller=usertest&function=quessId&qid=<?php echo $i;?>&val=<?php echo $_SESSION['testname'];?>"><?php echo $i;?></a> </b>
 <?php 					
 				}
 				echo "</center>";

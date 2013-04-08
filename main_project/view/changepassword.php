@@ -33,7 +33,7 @@ if(!isset($_SESSION['username']) || (trim($_SESSION['username']) == ''))
     </tr>
     <tr>
       <td width="100%" colspan="2" bgcolor="#C0C0C0">
-      <p align="center"><input type="button" value="Submit" onclick="validatechnagepassword()">&nbsp;&nbsp;&nbsp;&nbsp;
+      <p align="center"><input type="button" value="Update" name="btnupdate" onclick="validatePassword_js()"/>&nbsp;&nbsp;&nbsp;&nbsp;
       <input type="reset" value="Reset" name="B2"></td>
     </tr>
     </table>
@@ -41,7 +41,7 @@ if(!isset($_SESSION['username']) || (trim($_SESSION['username']) == ''))
 </div>
 </form>
 	<script type="text/javascript">
-			function funcSearch()
+			function updatePassword_ajax()
 			{
 				
 				$.ajax({ 
@@ -50,12 +50,16 @@ if(!isset($_SESSION['username']) || (trim($_SESSION['username']) == ''))
 	    		      data: $('#f1').serialize(),
 	    		      success: function(response)
 	    		      {
-						alert("Password has been Updated");
-								change_password();
+						alert(response);
+							//	change_password();
 					    		  
-}
+                         }
 
 				});
+				
+				
+				
+				//alert("dsfdf");
 			
 
 				}

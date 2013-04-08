@@ -1,58 +1,64 @@
-<?php
-$dateFormat = "d F Y -- g:i a";
-$targetDate = time() + (25*60);//Change the 25 to however many minutes you want to countdown
-$actualDate = time();
-$secondsDiff = $targetDate - $actualDate;
-$remainingDay     = floor($secondsDiff/60/60/24);
-$remainingHour    = floor(($secondsDiff-($remainingDay*60*60*24))/60/60);
-$remainingMinutes = floor(($secondsDiff-($remainingDay*60*60*24)-($remainingHour*60*60))/60);
-$remainingSeconds = floor(($secondsDiff-($remainingDay*60*60*24)-($remainingHour*60*60))-($remainingMinutes*60));
-$actualDateDisplay = date($dateFormat,$actualDate);
-$targetDateDisplay = date($dateFormat,$targetDate);
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
+<html>
 <head>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Quiz System</title>
-
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript">
-  var days = <?php echo $remainingDay; ?>  
-  var hours = <?php echo $remainingHour; ?>  
-  var minutes = <?php echo $remainingMinutes; ?>  
-  var seconds = <?php echo $remainingSeconds; ?> 
-function setCountDown ()
-{
-  seconds--;
-  if (seconds < 0){
-      minutes--;
-      seconds = 59
-  }
-  if (minutes < 0){
-      hours--;
-      minutes = 59
-  }
-  if (hours < 0){
-      days--;
-      hours = 23
-  }
-  document.getElementById("remain").innerHTML = days+" days, "+hours+" hours, "+minutes+" minutes, "+seconds+" seconds";
-  SD=window.setTimeout( "setCountDown()", 1000 );
-  if (minutes == '00' && seconds == '00') { seconds = "00"; window.clearTimeout(SD);
-   		//window.alert("Time is up. Press OK to continue."); // change timeout message as required
-  		window.location = "http://www.yourpage.com" // Add your redirect url
- 	} 
 
+
+function Timer(id, minLimit, callback){
+       var thisTimer = this;
+       this.limit = minLimit * 1;
+       this.callback = callback;
+       this.timer = 0;
+       this.addEvent(window, 'load', function(){
+               thisTimer.el = document.getElementById(id);
+               thisTimer.txt = thisTimer.el.firstChild;
+               thisTimer.intv = setInterval(function(){thisTimer.intvFunc();}, 1000);
+       });
 }
+
+Timer.prototype = {
+
+       intvFunc: function(){
+               this.txt.nodeValue = this.formatTime(++this.timer);
+               if(this.timer === this.limit){
+                       clearInterval(this.intv);
+                       this.callback.call(this);
+               }
+       },
+
+       formatNum: function(n){
+               return n < 10? '0' + n : n;
+       },
+
+       formatTime: function (n, m, s){
+               s = n % 60;
+               m = (n - s) / 60;
+               return [this.formatNum(m), ':', this.formatNum(s)].join('');
+       },
+
+       addEvent: (function(){return window.addEventListener? function(el, ev, f){
+                       el.addEventListener(ev, f, false);
+               }:window.attachEvent? function(el, ev, f){
+                       el.attachEvent('on' + ev, f);
+               }:function(){return;};
+       })()
+};
+
+// Usage: new Timer('id_of_counting_element', #_of_mins, callback_function(){});
+new Timer('timer1', 60, function(){this.el.parentNode.style.color = 'red'});
+//new Timer('timer2', 15, function(){this.el.parentNode.style.color = 'green'});
+
+
 
 </script>
 </head>
-<body onload="setCountDown();">
-
- Start Time: <?php echo $actualDateDisplay; ?><br />
- End Time:<?php echo $targetDateDisplay; ?><br />
- <div id="remain"><?php echo "$remainingDay days, $remainingHour hours, $remainingMinutes minutes, $remainingSeconds seconds";?></div>
-
-   
+<body>
+<div>Timer One Value: <span id="timer1">00:00</span></div>
+<!--<div>Timer One Value: <span id="timer2">00:00</span></div>-->
 </body>
 </html>
+
+ 
+

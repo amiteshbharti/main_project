@@ -22,6 +22,8 @@ include("<?php echo VIEW_PATH;?>register_user.php");
 <center>
 <body>
 <div>
+	
+	
 <div style="overflow:auto; margin-top:40px;">
 	<form name=f1 method="POST" action="index.php?controller=signup&function=fun_saveUser" onsubmit="return validate1()" >
 	<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="60%" height="75%">
@@ -158,7 +160,7 @@ include("<?php echo VIEW_PATH;?>register_user.php");
         </table>
         </form>  
 </div>
- <div style="height:20%;position:relative;background: url('../images/footer.jpeg') repeat scroll center bottom;">	
+ <div style="height:20%;position:relative;background: url('images/footer.jpeg') repeat scroll center bottom;">	
 </div> 
 </body>
 </center>

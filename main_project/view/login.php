@@ -58,7 +58,7 @@ body,td,th {
 </form>
 
 
- <td><button type="submit" class="btn" style="background-color:#1589FF;">Forgot Password </button></td>
+ <td><button type="submit" class="btn" onClick="window.location='index.php?controller=login&function=loadforgetPassword'" style="background-color:#1589FF;">Forgot Password </button></td>
  <td><button type="submit" class="btn" onClick="window.location='index.php?controller=signup&function=captcha'" style="background-color:#1589FF;">Sign Up!</button></td><td></td><td></td>
  <td><a href="<?php echo SITE_PATH;?>index.php?controller=login&function=about" class="btn btn-info"><i class="icon-exclamation-sign icon-white"></i> About Us</a></td>
  <td><a href="<?php echo SITE_PATH;?>index.php?controller=login&function=contact" class="btn btn-info"><i class="icon-exclamation-sign icon-white"></i> Contact Us</a></td>

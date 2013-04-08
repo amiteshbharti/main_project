@@ -6,46 +6,58 @@ ini_set("display_errors","1");
 require_once(PDO_PATH.'/cxpdo.php');
 require_once(PDO_PATH.'/mysql.php');
 
+/**
+* @classname            loginModel
+*
+* This class contain all methods that describes all the functionality of the login page....
 
+* @package              Zend_Magic
+
+* @author               Amitesh Bharti
+* @date                 28-03-2013
+* @version              version - 2
+* @modified-by          Amitesh Bharti
+* @modification-date    28-03-2013
+* ...
+*/
 
 class loginModel
 {       
 
     private	$_username  =   "";
-	private	$_password  =   "";
-        private	$_passlen   =  "";
-        //public $errors      =   null;						
-	public $errors      =   array();
-        private $_query     =   "";
-	public	$conn_obj;
-	public	$_db;
- public function __construct()
-	{
-		$config = array();
-						$config['user'] = 'root';
-						$config['pass'] = 'root';
-						$config['name'] = 'online_test';
-						$config['host'] = 'localhost';
-						$config['type'] = 'mysql';
-						$config['port'] = null;
-						$config['persistent'] = true;
-						$this->_db = db::instance($config);
-	}
+    private	$_password  =   "";
+    private	$_passlen   =  "";
+//  public $errors      =   null;						
+    public $errors      =   array();
+    private $_query     =   "";
+    public	$conn_obj;
+    public	$_db;
+    public function __construct()
+    {
+	$config = array();
+	$config['user'] = 'root';
+	$config['pass'] = 'root';
+	$config['name'] = 'online_test';
+	$config['host'] = 'localhost';
+	$config['type'] = 'mysql';
+	$config['port'] = null;
+	$config['persistent'] = true;
+        $this->_db = db::instance($config);
+    }
     		
 	
-	public function check_session()
+	
+    public function check_session()
     {
     	
-		if(!empty($_REQUEST['logout']))	
-		{
+	if(!empty($_REQUEST['logout']))	{
 			
-			unset($_SESSION['username']);
-			unset($_SESSION['password']);
-			return "session unset";
-		}
-		else{
-			return "not unset";
-		}
+	    unset($_SESSION['username']);
+	    unset($_SESSION['password']);
+	    return "session unset";
+	}else{
+	    return "not unset";
+	 }
 		
     }
         
@@ -53,7 +65,7 @@ class loginModel
 		
 
 		
-		public function confirm_session()
+    public function confirm_session()
                 {
 			
                 	$this->_username    =   $_REQUEST['username'];
@@ -158,12 +170,13 @@ class loginModel
 							
 							}
 					
-							if(!isset($flag))					
+							/*if(!isset($flag))					
 							{
 								$errors[]="User does not exist";
 								$flag=0;
 								//return "flag";
 							}
+							*/
 					}
 					else
 					{
@@ -174,7 +187,9 @@ class loginModel
 			
 			
 			}
-			else if(!empty($this->_username))
+			
+			
+			/*else if(!empty($this->_username))
 			{
 				$errors[]="password field is empty";
 				//return "empty username";
@@ -188,8 +203,38 @@ class loginModel
 			{
 				$errors[]="enter username and password";
 				//return "empty username and password";
-			}
-		}		
+			}*/
+			
+			
+			
+			
+		}
+		
+		public function passwordRecovery($arrValue)
+		{   
+		
+			 $userName=$arrValue['uname']; 
+			 $eid=$arrValue['eid']; 
+			
+			 $data['columns']	=	array('user_name','email_id','password');
+			 $data['tables']		=	'user_details';
+			 $data['conditions']	=	array('user_name'=>$userName);
+			 $result		=	$this->_db->select($data);
+			
+			//if matching eid to find to user password cause he/she already know username
+			  $row		=	$result->fetch(PDO::FETCH_ASSOC);
+			  if(isset( $row)){
+				  if($row['email_id']==$eid)
+				  {
+					  return "your password is \t   ".$row['password'];
+					  }
+				  else
+					  $flag=1;	
+				}
+				else
+				   $flag=1;	    
+				 
+		}	
 
 }
 

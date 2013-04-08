@@ -12,10 +12,11 @@ if(!isset($_SESSION['username']) || (trim($_SESSION['username']) == ''))
 		<title>
 			ADMIN HOME PAGE
 		</title>
-	<script type="text/javascript" src="<?php echo JS_PATH;?>jquery.js"></script>
-	<script type="text/javascript" src="<?php echo JS_PATH;?>jquery.validate.pack.js"></script>
+	    <script type="text/javascript" src="<?php echo JS_PATH;?>jquery.js"></script>
+	    <script type="text/javascript" src="<?php echo JS_PATH;?>jquery.validate.pack.js"></script>
         <script type="text/javascript" src="<?php echo JS_PATH;?>admin_home.js"></script>
 		<script type="text/javascript" src="<?php echo JS_PATH;?>signup.js"></script>	
+		<script type="text/javascript" src="<?php echo JS_PATH;?>update.js"></script>
 	</head>
 	
 	<body>

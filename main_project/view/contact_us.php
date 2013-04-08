@@ -1,12 +1,3 @@
-<?php 
-if(!isset($_SESSION['username']) || (trim($_SESSION['username']) == ''))
-{
-	header("Location: index.php?controller=login&function=execute_process");
-	//	exit();
-}
-
-?>
-
 
 <?php
 	include_once("header.php");
